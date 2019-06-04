@@ -22,26 +22,26 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
     import spark.implicits._
     val surveyDataFrame = readFromTestFile();
     val expectedOpenSourcePercentageSeq = Seq(
-      (
+      DeveloperOpenSourcePercentageView(
         "Less than once a month but more than once per year", 20561, 23.13265753856193
       ),
-      (
+      DeveloperOpenSourcePercentageView(
         "Once a month or more often", 11055, 12.437698997558588
       ),
-      (
+      DeveloperOpenSourcePercentageView(
         "Never", 32295, 36.33428214619219
       ),
-      (
+      DeveloperOpenSourcePercentageView(
         "Less than once per year", 24972, 28.095361317687296
       )
     )
 
-    val expectedOpenSourcePercentageDS: DataFrame =
-      sc.parallelize(expectedOpenSourcePercentageSeq).toDF("openSourcer", "count", "percentage")
+    val expectedOpenSourcePercentageDS: Dataset[DeveloperOpenSourcePercentageView] =
+      sc.parallelize(expectedOpenSourcePercentageSeq).toDS()
 
     val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
     val realDevelopOpenSourcePercentage = surveyProcessing.createDeveloperOpenSourcePercentage()
 
-    assertDataFrameApproximateEquals(expectedOpenSourcePercentageDS, realDevelopOpenSourcePercentage, 0.01)
+    assertDatasetApproximateEquals(expectedOpenSourcePercentageDS, realDevelopOpenSourcePercentage, 0.01)
   }
 }

@@ -21,13 +21,16 @@ class ElasticViewWriterTest extends FunSuite with DatasetSuiteBase{
     val surveyDataFrame = readFromTestFile();
     val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
 
-    val developOpenSourcePercentage : DataFrame = surveyProcessing.createDeveloperOpenSourcePercentage()
+    val developOpenSourcePercentage : Dataset[DeveloperOpenSourcePercentageView] =
+      surveyProcessing.createDeveloperOpenSourcePercentage()
 
-    ElasticViewWriter.writeView(developOpenSourcePercentage, "DeveloperOpenSourcePercentageView")
+    ElasticViewWriter.writeView[DeveloperOpenSourcePercentageView](developOpenSourcePercentage, "DeveloperOpenSourcePercentageView")
 
-    val retrivedView = spark.esDF("rtda/DeveloperOpenSourcePercentageView")
+    val modelEncoder = Encoders.product[DeveloperOpenSourcePercentageView]
 
-    assertDataFrameApproximateEquals(developOpenSourcePercentage, retrivedView, 0.0001)
+    val retrivedView = spark.esDF("rtda/DeveloperOpenSourcePercentageView").as[DeveloperOpenSourcePercentageView](modelEncoder)
+
+    assert(retrivedView.count() == developOpenSourcePercentage.count())
   }
 
 }

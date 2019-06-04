@@ -8,6 +8,7 @@ class SurveyProcessing(surveyDataFrame: DataFrame) {
     surveyDataFrame.groupBy("OpenSourcer")
       .count()
       .withColumn("percentage", (col("count")/ sum("count").over())*100)
+      .as[DeveloperOpenSourcePercentageView](modelEncoder)
   }
 
 
