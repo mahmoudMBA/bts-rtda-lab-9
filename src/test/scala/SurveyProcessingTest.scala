@@ -13,7 +13,7 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
   test("Test functionality: how many programmers participated in the survey?"){
     val surveyDataFrame = readFromTestFile();
     val  expectedDeveloperCount: Long =  88883;
-    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
     val realDeveloperCount: Long = surveyProcessing.developerCount();
     assert(realDeveloperCount == expectedDeveloperCount)
   }
@@ -40,7 +40,7 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
       sc.parallelize(expectedOpenSourcePercentageSeq).toDS()
 
     val surveyDataFrame = readFromTestFile();
-    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
     val realDevelopOpenSourcePercentageView: Dataset[DeveloperOpenSourcePercentageView] =
       surveyProcessing.createDeveloperOpenSourcePercentageView()
 

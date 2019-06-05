@@ -20,7 +20,7 @@ class ElasticViewWriterTest extends FunSuite {
   test("Write DeveloperOpenSourcePercentageView view to ES") {
 
     val surveyDataFrame = readFromTestFile();
-    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
 
     val developOpenSourcePercentage : Dataset[DeveloperOpenSourcePercentageView] =
       surveyProcessing.createDeveloperOpenSourcePercentageView()

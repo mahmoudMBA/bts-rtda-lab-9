@@ -1,5 +1,5 @@
 import org.apache.spark.sql.{Dataset, SparkSession}
-import views.DeveloperOpenSourcePercentageView
+import views.{AgeGenderView, DeveloperOpenSourcePercentageView}
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -9,18 +9,22 @@ object Main {
       .config("spark.es.index.auto.create", "true")
       .getOrCreate()
 
-    val surveyResultPath: String = args(0);
+    val surveyInputPath: String = args(0);
 
-    val surveyDataFrame = spark.read.option("header", "true").csv(surveyResultPath)
-    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
+    val surveyDataFrame = spark.read.option("header", "true").csv(surveyInputPath)
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
 
     val developerOpenSourcePercentageView : Dataset[DeveloperOpenSourcePercentageView] =
       surveyProcessing.createDeveloperOpenSourcePercentageView()
+
+    val ageGenderView: Dataset[AgeGenderView] = surveyProcessing.createAgeGenderView()
 
     ElasticViewWriter
       .writeView[DeveloperOpenSourcePercentageView](
       developerOpenSourcePercentageView, "DeveloperOpenSourcePercentageView"
     )
+
+    ElasticViewWriter.writeView(ageGenderView, "AgeGenderView")
 
     spark.stop();
   }
