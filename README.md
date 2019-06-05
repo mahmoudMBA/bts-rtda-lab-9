@@ -61,8 +61,8 @@ pass: changeme
 
 # Complete the boilerplate implementing the following use cases:
 
-    - Should create an index on elesticsearch wich contain a view: "Average professional coding Experience by developer type sorted by average".   
-    - Should created an index on elesticsearch wich contain a view: "Average year writing first line of code grouped by sex and sorted by avergae descendant"
-    - Should created an index on elesticsearch wich contain a view: "Percentage of developers that are Students"
-    - Should created an index on elesticsearch wich contain a view: "Should create an index on elesticsearch wich contain a view: Percentage of developers by race and ethnicity sorted by percentage (not include NA values on Ethnicity column)"
-    - Should created an index on elesticsearch wich contain a view: "Percentage of use of social media types amon developers sorted by percentage".
+    - Should created an index on elesticsearch wich contain a view: "Average year writing first line (Age1stCode) of code grouped by sex (Gender) and sorted by avergae descendant"
+    - Should create an index on elesticsearch wich contain a view: "Average professional coding Experience (YearsCodePro) by developer type (DevType) sorted by average".
+    - Should created an index on elesticsearch wich contain a view: "Percentage of developers that are Students (Student) sorted by percentage"
+    - Should created an index on elesticsearch wich contain a view: "Percentage of developers by race and ethnicity (Ethniticity) sorted by percentage (not include NA values on Ethnicity column)"
+    - Should created an index on elesticsearch wich contain a view: "Percentage of use of social media (SocialMedia) types amon developers sorted by percentage".
