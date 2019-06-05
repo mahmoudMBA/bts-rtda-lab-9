@@ -3,6 +3,7 @@ import org.apache.spark.sql.{DataFrame, Encoders}
 import org.apache.spark.sql.functions._
 
 class SurveyProcessing(surveyDataFrame: DataFrame) {
+  
   def createDeveloperOpenSourcePercentageView() = {
     val modelEncoder = Encoders.product[DeveloperOpenSourcePercentageView]
     surveyDataFrame.groupBy("OpenSourcer")
