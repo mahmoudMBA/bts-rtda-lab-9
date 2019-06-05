@@ -44,6 +44,13 @@ ping elasticsearch
 spark-submit --master local[2] --packages org.elasticsearch:elasticsearch-spark-20_2.11:7.1.1 --class Main target/scala-2.11/bts-rtda-lab-9_2.11-1.jar /appdata/data/survey_results_public.csv
 ```
 
+-- Check index on elasticsearch using kinana sweb server
+
+```bash
+http://0.0.0.0:5601
+user: elastic
+pass: changeme
+```
 
 - Download the [Stack Overflow 2019 Developer Survey](https://drive.google.com/open?id=1QOmVDpd8hcVYqqUXDXf68UMDWQZP0wQV) (Extract the files directly to ```bts-rtda-lab-9/data``` folder). The data set contain the following files:
     

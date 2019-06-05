@@ -13,6 +13,15 @@ services:
         networks:
             - lampda-network
 
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+        container_name: elasticsearch
+        environment:
+            - "cluster.initial_master_nodes=elasticsearch"
+            - "node.name=elasticsearch"
+        networks:
+            - lampda-network
+
     kibana:
         image: docker.elastic.co/kibana/kibana:7.1.1
         container_name: kibana
