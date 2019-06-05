@@ -1,6 +1,7 @@
-import com.holdenkarau.spark.testing.{DatasetSuiteBase}
+import com.holdenkarau.spark.testing.DatasetSuiteBase
 import views.DeveloperOpenSourcePercentageView
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
+import org.apache.spark.sql.functions._
 import org.scalatest.FunSuite
 
 
@@ -20,7 +21,7 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
 
   test("Test functionality: Percentage of developers how do open source") {
     import spark.implicits._
-    val surveyDataFrame = readFromTestFile();
+
     val expectedOpenSourcePercentageSeq = Seq(
       DeveloperOpenSourcePercentageView(
         "Less than once a month but more than once per year", 20561, 23.13265753856193
@@ -36,12 +37,20 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
       )
     )
 
-    val expectedOpenSourcePercentageDS: Dataset[DeveloperOpenSourcePercentageView] =
+    val expectedOpenSourcePercentageView: Dataset[DeveloperOpenSourcePercentageView] =
       sc.parallelize(expectedOpenSourcePercentageSeq).toDS()
 
+    val surveyDataFrame = readFromTestFile();
     val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
-    val realDevelopOpenSourcePercentage = surveyProcessing.createDeveloperOpenSourcePercentage()
+    val realDevelopOpenSourcePercentageView: Dataset[DeveloperOpenSourcePercentageView] =
+      surveyProcessing.createDeveloperOpenSourcePercentageView()
 
-    assertDatasetApproximateEquals(expectedOpenSourcePercentageDS, realDevelopOpenSourcePercentage, 0.01)
+     assert(areEquals(expectedOpenSourcePercentageView, realDevelopOpenSourcePercentageView))
+  }
+
+  def areEquals[T](d1: Dataset[T], d2: Dataset[T]): Boolean ={
+    val d1_prime = d1.groupBy().count()
+    val d2_prime = d2.groupBy().count()
+    d1_prime.intersect(d2_prime).count() == d2_prime.intersect(d1_prime).count()
   }
 }

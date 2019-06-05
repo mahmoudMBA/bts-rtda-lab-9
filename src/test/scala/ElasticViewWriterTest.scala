@@ -4,15 +4,16 @@ import org.scalatest.FunSuite
 import org.elasticsearch.spark.sql._
 import views.DeveloperOpenSourcePercentageView
 
-class ElasticViewWriterTest extends FunSuite with DatasetSuiteBase{
+class ElasticViewWriterTest extends FunSuite {
+ val spark = SparkSession.builder()
+   .master("local")
+   .config("spark.es.nodes", "elasticsearch")
+   .config("spark.es.port", "9200")
+   .config("spark.es.index.auto.create", "true")
+   .getOrCreate();
 
   def readFromTestFile(): DataFrame ={
-    val spark_ = SparkSession.builder()
-      .config("spark.es.nodes", "localhost")
-      .config("spark.es.port", "9200")
-      .config("spark.es.index.auto.create", "true")
-      .getOrCreate()
-    val surveyDataFrame = spark_.read.option("header", "true").csv("data/survey_results_public.csv")
+    val surveyDataFrame = spark.read.option("header", "true").csv("data/survey_results_public.csv")
     surveyDataFrame
   }
 
@@ -22,15 +23,15 @@ class ElasticViewWriterTest extends FunSuite with DatasetSuiteBase{
     val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame);
 
     val developOpenSourcePercentage : Dataset[DeveloperOpenSourcePercentageView] =
-      surveyProcessing.createDeveloperOpenSourcePercentage()
+      surveyProcessing.createDeveloperOpenSourcePercentageView()
 
     ElasticViewWriter.writeView[DeveloperOpenSourcePercentageView](developOpenSourcePercentage, "DeveloperOpenSourcePercentageView")
 
     val modelEncoder = Encoders.product[DeveloperOpenSourcePercentageView]
 
-    val retrivedView = spark.esDF("rtda/DeveloperOpenSourcePercentageView").as[DeveloperOpenSourcePercentageView](modelEncoder)
+    val retrievedView = spark.esDF("rtda/DeveloperOpenSourcePercentageView").as[DeveloperOpenSourcePercentageView](modelEncoder)
 
-    assert(retrivedView.count() == developOpenSourcePercentage.count())
+    assert(retrievedView.count() == developOpenSourcePercentage.count())
   }
 
 }
