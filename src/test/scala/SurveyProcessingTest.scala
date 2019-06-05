@@ -1,7 +1,6 @@
 import com.holdenkarau.spark.testing.DatasetSuiteBase
 import views.DeveloperOpenSourcePercentageView
-import org.apache.spark.sql.{DataFrame, Dataset, Encoders}
-import org.apache.spark.sql.functions._
+import org.apache.spark.sql.{DataFrame, Dataset}
 import org.scalatest.FunSuite
 
 
