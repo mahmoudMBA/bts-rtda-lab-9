@@ -7,6 +7,13 @@ git clone https://gitlab.com/liesner/bts-rtda-lab-9.git
 cd bts-rtda-lab-9
 ```
 
+
+- Download the [Stack Overflow 2019 Developer Survey](https://drive.google.com/open?id=1QOmVDpd8hcVYqqUXDXf68UMDWQZP0wQV) (Extract the files directly to ```bts-rtda-lab-9/data``` folder). The data set contain the following files:
+    
+    - ```survey_results_schema.csv```: contain a description of each one of the columns on ```survey_results_public.csv```.    
+    - ```survey_results_public.csv```: contain the answers of each one of the participants on the survey.  
+    - ```so_survey_2019.pdf```: contain the full description of the survey.
+    
 - Build docker images:
 ```bash
 docker-compose build
@@ -51,12 +58,6 @@ http://0.0.0.0:5601
 user: elastic
 pass: changeme
 ```
-
-- Download the [Stack Overflow 2019 Developer Survey](https://drive.google.com/open?id=1QOmVDpd8hcVYqqUXDXf68UMDWQZP0wQV) (Extract the files directly to ```bts-rtda-lab-9/data``` folder). The data set contain the following files:
-    
-    - ```survey_results_schema.csv```: contain a description of each one of the columns on ```survey_results_public.csv```.    
-    - ```survey_results_public.csv```: contain the answers of each one of the participants on the survey.  
-    - ```so_survey_2019.pdf```: contain the full description of the survey.
 
 
 # Complete the boilerplate implementing the following use cases:
