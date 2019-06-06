@@ -1,8 +1,9 @@
-import views.{AgeGenderView, DeveloperOpenSourcePercentageView}
+import views.{AgeGenderView, AvgProfessionalCodingExperienceView, DeveloperOpenSourcePercentageView, PercentageByEthnicityView, PercentageDevStudentsView, PercentageSocialMediaView}
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, SparkSession}
 import org.apache.spark.sql.functions._
 
 class SurveyProcessing(surveyDataFrame: DataFrame, spark: SparkSession) {
+
 
   def createDeveloperOpenSourcePercentageView(): Dataset[DeveloperOpenSourcePercentageView] = {
 
@@ -30,5 +31,11 @@ class SurveyProcessing(surveyDataFrame: DataFrame, spark: SparkSession) {
   }
 
 
+  def createPercentageDevStudentsView(): Dataset[PercentageDevStudentsView] = ???
 
+  def createAvgProfessionalCodingExperienceView(): Dataset[AvgProfessionalCodingExperienceView] = ???
+
+  def createPercentageByEthnicityView(): Dataset[PercentageByEthnicityView] = ???
+
+  def createPercentageSocialMediaView(): Dataset[PercentageSocialMediaView] = ???
 }

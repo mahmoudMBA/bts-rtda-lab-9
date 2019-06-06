@@ -1,5 +1,5 @@
 import com.holdenkarau.spark.testing.DatasetSuiteBase
-import views.DeveloperOpenSourcePercentageView
+import views._
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.scalatest.FunSuite
 
@@ -47,6 +47,63 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
      assert(datasetsAreEquals(expectedOpenSourcePercentageView, realDevelopOpenSourcePercentageView))
   }
 
+  test("Average professional coding Experience") {
+    val expectedAvg = Array(
+      AvgProfessionalCodingExperienceView("Senior executive/VP", 14.545547073791349),
+      AvgProfessionalCodingExperienceView("Engineering manager", 12.925037859666835)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realAvg = surveyProcessing.createAvgProfessionalCodingExperienceView();
+
+    assert(expectedAvg, realAvg.take(2))
+  }
+
+  test("Percentage of developers that are Students") {
+    val expectedPercentage = Array(
+      PercentageDevStudentsView("No", 65816, 74.04790567375089),
+      PercentageDevStudentsView("Yes, full-time", 15769,  17.741300361148927),
+      PercentageDevStudentsView("Yes, part-time", 5429,  6.108029656964773),
+      PercentageDevStudentsView("Yes, full-time", 1869,  2.102764308135414)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realPercentage = surveyProcessing.createPercentageDevStudentsView();
+
+    assert(expectedPercentage, realPercentage.take(4))
+  }
+
+  test("Percentage of developers by race and ethnicity") {
+    val expectedAvg = Array(
+      PercentageByEthnicityView("White or of European descent", 54284, 56.87761944677284),
+      PercentageByEthnicityView("NA", 12215, 12.79861693210394)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realAvg = surveyProcessing.createPercentageByEthnicityView();
+
+    assert(expectedAvg, realAvg.take(2))
+  }
+
+  test("Percentage of use of social media") {
+    val expectedAvg = Array(
+      PercentageSocialMediaView("Reddit", 14374, 16.171821383166634),
+      PercentageSocialMediaView("YouTube", 13830, 15.55978083548035)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realAvg = surveyProcessing.createPercentageSocialMediaView();
+
+    assert(expectedAvg, realAvg.take(2))
+  }
 
   def datasetsAreEquals[T](d1: Dataset[T], d2: Dataset[T]): Boolean ={
     val d1_prime = d1.groupBy().count()
