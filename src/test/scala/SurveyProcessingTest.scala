@@ -44,10 +44,11 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
     val realDevelopOpenSourcePercentageView: Dataset[DeveloperOpenSourcePercentageView] =
       surveyProcessing.createDeveloperOpenSourcePercentageView()
 
-     assert(areEquals(expectedOpenSourcePercentageView, realDevelopOpenSourcePercentageView))
+     assert(datasetsAreEquals(expectedOpenSourcePercentageView, realDevelopOpenSourcePercentageView))
   }
 
-  def areEquals[T](d1: Dataset[T], d2: Dataset[T]): Boolean ={
+
+  def datasetsAreEquals[T](d1: Dataset[T], d2: Dataset[T]): Boolean ={
     val d1_prime = d1.groupBy().count()
     val d2_prime = d2.groupBy().count()
     d1_prime.intersect(d2_prime).count() == d2_prime.intersect(d1_prime).count()

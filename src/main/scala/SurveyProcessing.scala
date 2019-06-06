@@ -1,10 +1,10 @@
 import views.{AgeGenderView, DeveloperOpenSourcePercentageView}
-import org.apache.spark.sql.{DataFrame, Encoders, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoders, SparkSession}
 import org.apache.spark.sql.functions._
 
 class SurveyProcessing(surveyDataFrame: DataFrame, spark: SparkSession) {
 
-  def createDeveloperOpenSourcePercentageView() = {
+  def createDeveloperOpenSourcePercentageView(): Dataset[DeveloperOpenSourcePercentageView] = {
 
     val modelEncoder = Encoders.product[DeveloperOpenSourcePercentageView]
 
@@ -16,7 +16,7 @@ class SurveyProcessing(surveyDataFrame: DataFrame, spark: SparkSession) {
   }
 
 
-  def createAgeGenderView() = {
+  def createAgeGenderView(): Dataset[AgeGenderView] = {
 
     val modelEncoder = Encoders.product[AgeGenderView]
 
@@ -25,9 +25,10 @@ class SurveyProcessing(surveyDataFrame: DataFrame, spark: SparkSession) {
     .as[AgeGenderView](modelEncoder)
   }
 
-
   def developerCount(): Long = {
     this.surveyDataFrame.count()
   }
+
+
 
 }
