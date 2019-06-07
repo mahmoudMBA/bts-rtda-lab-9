@@ -70,7 +70,7 @@ pass: changeme
     
 # Assignment
 
-- Complete the boiler plate with code to produce indexes on elesticsearch with the following views:
+- Complete the spark boiler plate provided with code to produce indexes on elesticsearch with the following views:
     
     - Age average by Country
     - Percentage of programmers by languaje.  
