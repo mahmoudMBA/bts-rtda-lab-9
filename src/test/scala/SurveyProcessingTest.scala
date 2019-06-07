@@ -47,6 +47,22 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
      assert(datasetsAreEquals(expectedOpenSourcePercentageView, realDevelopOpenSourcePercentageView))
   }
 
+  test("Average year writing first line (Age1stCode) of code grouped by sex (Gender) and sorted by average descendant") {
+    val expectedPercentage = Array(
+      AgeGenderView("Woman", 17.00396704302716),
+      AgeGenderView("NA", 15.563623545999295),
+      AgeGenderView("Man", 15.32599837000815),
+      AgeGenderView("Non-binary, genderqueer, or gender non-conforming", 14.308884297520661)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realPercentage = surveyProcessing.createAgeGenderView();
+
+    assert(expectedPercentage, realPercentage.take(4))
+  }
+
   test("Average professional coding Experience") {
     val expectedAvg = Array(
       AvgProfessionalCodingExperienceView("Senior executive/VP", 14.545547073791349),
@@ -66,7 +82,7 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
       PercentageDevStudentsView("No", 65816, 74.04790567375089),
       PercentageDevStudentsView("Yes, full-time", 15769,  17.741300361148927),
       PercentageDevStudentsView("Yes, part-time", 5429,  6.108029656964773),
-      PercentageDevStudentsView("Yes, full-time", 1869,  2.102764308135414)
+      PercentageDevStudentsView("NA", 1869,  2.102764308135414)
     )
 
     val surveyDataFrame = readFromTestFile();

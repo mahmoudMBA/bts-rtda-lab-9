@@ -19,12 +19,17 @@ object Main {
 
     val ageGenderView: Dataset[AgeGenderView] = surveyProcessing.createAgeGenderView()
 
-    ElasticViewWriter
-      .writeView[DeveloperOpenSourcePercentageView](
-      developerOpenSourcePercentageView, "DeveloperOpenSourcePercentageView"
-    )
+    val percentageDevStudentsView = surveyProcessing createPercentageDevStudentsView()
 
-    ElasticViewWriter.writeView(ageGenderView, "AgeGenderView")
+    val percentageByEthnicityView = surveyProcessing.createPercentageByEthnicityView()
+
+    val percentageSocialMediaView  = surveyProcessing.createPercentageSocialMediaView()
+
+    ElasticViewWriter.writeView(developerOpenSourcePercentageView, "DeveloperOpenSourcePercentageView")
+    ElasticViewWriter.writeView(ageGenderView, "developerOpenSourcePercentageView")
+    ElasticViewWriter.writeView(percentageDevStudentsView, "percentageDevStudentsView")
+    ElasticViewWriter.writeView(percentageByEthnicityView, "percentageByEthnicityView")
+    ElasticViewWriter.writeView(percentageSocialMediaView, "percentageSocialMediaView")
 
     spark.stop();
   }
