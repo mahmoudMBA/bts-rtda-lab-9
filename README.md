@@ -62,8 +62,19 @@ pass: changeme
 
 # Complete the boilerplate implementing the following use cases:
 
-    - Should created an index on elesticsearch wich contain a view: "Average year writing first line (Age1stCode) of code grouped by sex (Gender) and sorted by avergae descendant"
-    - Should create an index on elesticsearch wich contain a view: "Average professional coding Experience (YearsCodePro) by developer type (DevType) sorted by average".
-    - Should created an index on elesticsearch wich contain a view: "Percentage of developers that are Students (Student) sorted by percentage"
-    - Should created an index on elesticsearch wich contain a view: "Percentage of developers by race and ethnicity (Ethniticity) sorted by percentage (not include NA values on Ethnicity column)"
-    - Should created an index on elesticsearch wich contain a view: "Percentage of use of social media (SocialMedia) types amon developers sorted by percentage".
+- Should created an index on elesticsearch wich contain a view: "Average year writing first line (Age1stCode) of code grouped by sex (Gender) and sorted by avergae descendant"
+- Should create an index on elesticsearch wich contain a view: "Average professional coding Experience (YearsCodePro) by developer type (DevType) sorted by average".
+- Should created an index on elesticsearch wich contain a view: "Percentage of developers that are Students (Student) sorted by percentage"
+- Should created an index on elesticsearch wich contain a view: "Percentage of developers by race and ethnicity (Ethniticity) sorted by percentage (not include NA values on Ethnicity column)"
+- Should created an index on elesticsearch wich contain a view: "Percentage of use of social media (SocialMedia) types amon developers sorted by percentage".
+    
+# Assignment
+
+- Complete the boiler plate with code to produce indexes on elesticsearch with the following views:
+    
+    - Age average by Country
+    - Percentage of programmers by languaje.  
+    - Percentage of programmers by platform.
+
+- Create test code for each functionality developed 
+- Create a dashboard on kibana with a graphic for each of the views. 
