@@ -121,6 +121,49 @@ class SurveyProcessingTest extends FunSuite with DatasetSuiteBase {
     assert(expectedAvg, realAvg.take(2))
   }
 
+  test("Age average by Country") {
+    val expectedAvg = Array(
+      AgeCountryView("Papua New Guinea", 63.0),
+      AgeCountryView("Saint Kitts and Nevis", 57.0)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realAvg = surveyProcessing.createAvgAgeByCountry();
+
+    assert(expectedAvg, realAvg.take(2))
+  }
+
+  test("Percentage of programmers by language") {
+    val expectedAvg = Array(
+      PercentageByLanguageView("JavaScript", 59219, 13.403452545046726),
+      PercentageByLanguageView("HTML/CSS", 55466, 12.554009673644636)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realAvg = surveyProcessing.createPercentageLanguageView();
+
+    assert(expectedAvg, realAvg.take(2))
+  }
+
+  test("Percentage of programmers by platforms") {
+    val expectedAvg = Array(
+      PercentageByPlatform("Linux", 42753, 15.479729313834467),
+      PercentageByPlatform("Windows", 40630, 14.71104722524956)
+    )
+
+    val surveyDataFrame = readFromTestFile();
+    val surveyProcessing: SurveyProcessing = new SurveyProcessing(surveyDataFrame, spark);
+
+    val realAvg = surveyProcessing.createPercentagePlatformView();
+
+    assert(expectedAvg, realAvg.take(2))
+  }
+
+
   def datasetsAreEquals[T](d1: Dataset[T], d2: Dataset[T]): Boolean ={
     val d1_prime = d1.groupBy().count()
     val d2_prime = d2.groupBy().count()
